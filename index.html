@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Klassenarbeit Chemie – Klasse 8</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f5f0;color:#1a1a1a;min-height:100vh;padding:1rem}
+#app{max-width:680px;margin:0 auto;padding:1rem 0}
+.card{background:#fff;border:1px solid #e5e5e0;border-radius:12px;padding:1.25rem;margin-bottom:1rem}
+.row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.row-between{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+h1{font-size:22px;font-weight:500;color:#1a1a1a}
+h2{font-size:18px;font-weight:500;color:#1a1a1a;margin-bottom:1rem}
+h3{font-size:15px;font-weight:500;color:#1a1a1a;margin-bottom:8px}
+p{font-size:14px;color:#666;line-height:1.6}
+label{font-size:13px;color:#666;display:block;margin-bottom:4px}
+input[type=text],input[type=password]{width:100%;padding:9px 12px;border:1px solid #ccc;border-radius:8px;font-size:14px;background:#fff;color:#1a1a1a;margin-bottom:8px;outline:none}
+input[type=text]:focus,input[type=password]:focus{border-color:#534AB7}
+input[type=number]{width:100px;padding:7px 10px;border:1px solid #ccc;border-radius:8px;font-size:14px;background:#fff;color:#1a1a1a;outline:none}
+input[type=number]:focus{border-color:#534AB7}
+.btn{background:#fff;border:1px solid #ccc;border-radius:8px;padding:8px 18px;cursor:pointer;font-size:14px;color:#1a1a1a;transition:background 0.15s}
+.btn:hover{background:#f5f5f0}
+.btn:active{transform:scale(0.98)}
+.btn.primary{background:#534AB7;border-color:#534AB7;color:#fff}
+.btn.primary:hover{background:#3C3489}
+.btn.sm{padding:5px 12px;font-size:13px}
+.btn.danger{background:#fff0f0;border-color:#E24B4A;color:#A32D2D}
+.btn.active-role{background:#534AB7;color:#fff;border-color:#534AB7}
+.opt-btn{background:#f5f5f0;border:1px solid #e5e5e0;border-radius:8px;padding:10px 14px;cursor:pointer;text-align:left;font-size:14px;color:#1a1a1a;width:100%;margin-bottom:6px;transition:all 0.15s}
+.opt-btn:hover:not(:disabled){border-color:#999}
+.opt-btn.correct{background:#E1F5EE;border-color:#1D9E75;color:#085041}
+.opt-btn.wrong{background:#FCEBEB;border-color:#E24B4A;color:#501313}
+.feedback{margin:10px 0;padding:10px 14px;border-radius:8px;font-size:14px;line-height:1.5}
+.feedback.ok{background:#E1F5EE;color:#085041;border:1px solid #1D9E75}
+.feedback.nok{background:#FCEBEB;color:#501313;border:1px solid #E24B4A}
+.tag{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:500}
+.tag.ok{background:#E1F5EE;color:#085041}
+.tag.warn{background:#FAEEDA;color:#633806}
+.tag.bad{background:#FCEBEB;color:#501313}
+.tag.gray{background:#f0f0ec;color:#666}
+.avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;flex-shrink:0}
+.sep{height:1px;background:#e5e5e0;margin:12px 0}
+.metric{background:#f5f5f0;border-radius:8px;padding:10px 14px;text-align:center}
+.metric .val{font-size:22px;font-weight:500;color:#1a1a1a}
+.metric .lbl{font-size:12px;color:#666;margin-top:2px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:1rem}
+.heatcell{border-radius:8px;padding:7px 8px;font-size:12px;text-align:center;font-weight:500}
+.chip{background:#f0f0ec;border:1px solid #e5e5e0;border-radius:20px;padding:5px 12px;font-size:13px;cursor:grab;color:#1a1a1a;user-select:none;display:inline-block}
+.chip.correct-chip{background:#E1F5EE;border-color:#1D9E75;color:#085041}
+.chip.wrong-chip{background:#FCEBEB;border-color:#E24B4A;color:#501313}
+.drag-zone{min-height:50px;border:1.5px dashed #ccc;border-radius:8px;padding:8px;display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 10px;background:#fff}
+.drag-zone.over{background:#eef4fb;border-color:#534AB7}
+.drag-label{font-size:13px;color:#666;margin-bottom:2px;margin-top:6px}
+.prog-bar-bg{height:4px;background:#e5e5e0;border-radius:2px;margin-top:6px}
+.prog-bar{height:4px;border-radius:2px;background:#534AB7}
+.topic-card{background:#fff;border:1px solid #e5e5e0;border-radius:12px;padding:14px 16px;cursor:pointer;transition:border-color 0.15s}
+.topic-card:hover{border-color:#999}
+.topic-card.done{border-color:#1D9E75}
+.stu-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid #e5e5e0}
+.stu-row:last-child{border-bottom:none}
+.topic-bar-bg{height:6px;background:#e5e5e0;border-radius:3px;flex:1}
+.topic-bar-fill{height:6px;border-radius:3px;transition:width 0.4s}
+.err{color:#A32d2d;font-size:13px;margin-top:6px}
+.role-row{display:flex;gap:8px;margin:6px 0 12px}
+.role-btn{flex:1;padding:8px;border:1px solid #ccc;border-radius:8px;cursor:pointer;font-size:14px;background:#fff;color:#1a1a1a;transition:all 0.15s}
+.role-btn.sel{background:#534AB7;color:#fff;border-color:#534AB7}
+@media(max-width:500px){.grid3{grid-template-columns:repeat(2,1fr)}.topic-grid{grid-template-columns:1fr!important}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+const TEACHER_PIN="2708";
+const TOPICS=[
+  {id:0,icon:"⚙️",title:"Metalle & Nichtmetalle"},
+  {id:1,icon:"⚖️",title:"Dichte & Masse/Volumen"},
+  {id:2,icon:"🔬",title:"Elemente & Verbindungen"},
+  {id:3,icon:"📊",title:"Periodensystem"},
+  {id:4,icon:"⚛️",title:"Teilchenmodell"},
+  {id:5,icon:"🔥",title:"Oxidation"}
+];
+const QUESTIONS={
+  0:[
+
+    {type:"mc",q:"Nenne eine typische Eigenschaft von Metallen.",opts:["Spröde","Leiten elektrischen Strom","Immer durchsichtig","Immer gasförmig"],ans:1,fb:"Metalle leiten elektrischen Strom und Wärme gut."},
+    {type:"mc",q:"Welche Eigenschaft passt zu Nichtmetallen?",opts:["Gute Stromleitung","Metallischer Glanz","Oft spröde","Immer magnetisch"],ans:2,fb:"Nichtmetalle sind oft spröde und leiten Strom schlecht."},
+    {type:"mc",q:"Was ist eine Legierung?",opts:["Ein reines Metall","Ein Gemisch aus mindestens zwei Metallen","Ein Nichtmetall","Eine Säure"],ans:1,fb:"Eine Legierung besteht aus mindestens zwei Metallen, z. B. Bronze."},
+
+    {type:"mc",q:"Welche Eigenschaft haben ALLE Metalle?",opts:["Magnetisch","Leiten elektrischen Strom","Transparent","Gasförmig bei Raumtemperatur"],ans:1,fb:"Alle Metalle leiten elektrischen Strom. Magnetisch sind nur wenige (z. B. Eisen, Nickel)."},
+    {type:"mc",q:"Was beschreibt Verformbarkeit (Duktilität)?",opts:["Sprödigkeit","Magnetismus","Biegen ohne Brechen","Wärmeleitfähigkeit"],ans:2,fb:"Verformbarkeit = biegen oder hämmern ohne Brechen. Typisch für Metalle."},
+    {type:"drag",q:"Metall oder Nichtmetall?",items:["Eisen","Kupfer","Schwefel","Sauerstoff","Aluminium","Kohlenstoff"],cats:["Metall","Nichtmetall"],correct:{"Eisen":"Metall","Kupfer":"Metall","Schwefel":"Nichtmetall","Sauerstoff":"Nichtmetall","Aluminium":"Metall","Kohlenstoff":"Nichtmetall"},fb:"Eisen, Kupfer, Aluminium → Metall. Schwefel, Sauerstoff, Kohlenstoff → Nichtmetall."},
+    {type:"mc",q:"Welcher Stoff ist kein Metall?",opts:["Silber","Gold","Silizium","Zink"],ans:2,fb:"Silizium ist ein Halbmetall."},
+    {type:"mc",q:"Warum wird der Metalllöffel schneller warm?",opts:["Hat keine Masse","Metalle leiten Wärme gut","Ist magnetisch","Hat größere Oberfläche"],ans:1,fb:"Metalle sind sehr gute Wärmeleiter."},
+    {type:"drag",q:"Alltag: Metall oder kein Metall?",items:["Büroklammer","Plastikflasche","Kupferkabel","Holzstuhl","Aluminiumfolie","Gummidichtung"],cats:["Metall","Kein Metall"],correct:{"Büroklammer":"Metall","Plastikflasche":"Kein Metall","Kupferkabel":"Metall","Holzstuhl":"Kein Metall","Aluminiumfolie":"Metall","Gummidichtung":"Kein Metall"},fb:"Büroklammer, Kupferkabel, Alufolie → Metall. Plastik, Holz, Gummi → kein Metall."}
+  ],
+  1:[
+
+    {type:"mc",q:"Warum schwimmt Holz auf Wasser?",opts:["Weil Holz leichter aussieht","Weil Holz eine geringere Dichte als Wasser hat","Weil Holz magnetisch ist","Weil Wasser fest ist"],ans:1,fb:"Holz schwimmt, weil seine Dichte kleiner ist als die von Wasser."},
+    {type:"mc",q:"Warum sinkt ein Stein im Wasser?",opts:["Weil er eine höhere Dichte als Wasser hat","Weil er warm ist","Weil er Luft enthält","Weil er magnetisch ist"],ans:0,fb:"Ein Stein sinkt, weil seine Dichte größer als die von Wasser ist."},
+    {type:"mc",q:"Eine Metallschraube und ein gleich großer Stein sinken im Wasser. Wer verdrängt mehr Wasser?",opts:["Die Schraube","Der Stein","Beide gleich viel","Keiner"],ans:2,fb:"Gleich große Körper verdrängen gleich viel Wasser – unabhängig vom Material."},
+
+    {type:"mc",q:"Was beschreibt die Masse eines Körpers?",opts:["Wie viel Raum er einnimmt","Wie viel Materie er enthält","Größe der Oberfläche","Wie schnell er sich bewegt"],ans:1,fb:"Masse = Menge an Materie, gemessen in g oder kg."},
+    {type:"mc",q:"Wie bestimmt man das Volumen eines unregelmäßigen Körpers?",opts:["Lineal","Wasserverdrängung","Waage","Thermometer"],ans:1,fb:"Wasserverdrängung (Archimedisches Prinzip)."},
+    {type:"calc",q:"Masse = 150 g, Volumen = 50 cm³.\nBerechne: ρ = m ÷ V in g/cm³",ans:3,unit:"g/cm³",fb:"ρ = 150 ÷ 50 = 3 g/cm³. Dichter als Wasser → sinkt."},
+    {type:"mc",q:"Warum schwimmt Holz auf Wasser?",opts:["Hat keine Masse","Dichte von Holz < Dichte von Wasser","Ist magnetisch","Ist hohl"],ans:1,fb:"Schwimmen wenn Dichte des Körpers < Dichte der Flüssigkeit."},
+    {type:"mc",q:"Was entdeckte Archimedes?",opts:["Gold ist schwer","Körper verdrängt sein eigenes Volumen an Wasser","Wasser siedet bei 100°C","Gold ist ein Metall"],ans:1,fb:"Eingetauchter Körper verdrängt sein Volumen an Wasser."},
+    {type:"calc",q:"Masse = 400 g, Volumen = 800 cm³.\nSchwimmt der Körper? (1 = ja, 0 = nein)",ans:1,unit:"(1=Ja / 0=Nein)",fb:"ρ = 0,5 g/cm³ < 1 g/cm³ → schwimmt!"}
+  ],
+  2:[
+
+    {type:"drag",q:"Ordne zu: Element oder Verbindung",items:["Eisen","Wasser","Kupfer","Kohlenstoffdioxid","Gold","Kochsalz"],cats:["Element","Verbindung"],correct:{"Eisen":"Element","Wasser":"Verbindung","Kupfer":"Element","Kohlenstoffdioxid":"Verbindung","Gold":"Element","Kochsalz":"Verbindung"},fb:"Eisen, Kupfer und Gold sind Elemente. Wasser, Kohlenstoffdioxid und Kochsalz sind Verbindungen."},
+
+    {type:"mc",q:"Was ist ein Reinstoff?",opts:["Mischung aus mehreren Stoffen","Besteht aus einer Sorte von Teilchen","Besonders reiner Kunststoff","Stoff ohne Farbe"],ans:1,fb:"Reinstoff = eine Teilchensorte, konstante Eigenschaften."},
+    {type:"drag",q:"Reinstoff oder Stoffgemisch?",items:["Gold","Cola","Eisen","Müsli","Wasser (H₂O)","Milch"],cats:["Reinstoff","Stoffgemisch"],correct:{"Gold":"Reinstoff","Cola":"Stoffgemisch","Eisen":"Reinstoff","Müsli":"Stoffgemisch","Wasser (H₂O)":"Reinstoff","Milch":"Stoffgemisch"},fb:"Gold, Eisen, H₂O = Reinstoffe. Cola, Müsli, Milch = Stoffgemische."},
+    {type:"mc",q:"Was unterscheidet Element von Verbindung?",opts:["Elemente sind flüssig","Elemente = eine Atomsorte, Verbindungen = mehrere","Verbindungen sind gasförmig","Kein Unterschied"],ans:1,fb:"Elemente: eine Atomsorte. Verbindungen: mehrere, chemisch gebunden."},
+    {type:"drag",q:"Element oder Verbindung?",items:["O₂","H₂O","Fe","CO₂","Cu","NaCl"],cats:["Element","Verbindung"],correct:{"O₂":"Element","H₂O":"Verbindung","Fe":"Element","CO₂":"Verbindung","Cu":"Element","NaCl":"Verbindung"},fb:"O₂, Fe, Cu = Elemente. H₂O, CO₂, NaCl = Verbindungen."},
+    {type:"mc",q:"Du löst Zucker in Wasser. Was entsteht?",opts:["Neuer Reinstoff","Stoffgemisch","Chemische Verbindung","Element"],ans:1,fb:"Stoffgemisch (Lösung) – trennbar, keine chemische Reaktion."}
+  ],
+  3:[
+
+    {type:"mc",q:"Wie nennt man die senkrechten Spalten im Periodensystem?",opts:["Perioden","Gruppen","Reihen","Schalen"],ans:1,fb:"Die senkrechten Spalten heißen Gruppen."},
+    {type:"mc",q:"Wie nennt man die waagerechten Zeilen im Periodensystem?",opts:["Gruppen","Blöcke","Perioden","Spalten"],ans:2,fb:"Die waagerechten Zeilen heißen Perioden."},
+    {type:"mc",q:"Zu den Halogenen der 7. Hauptgruppe gehören ...",opts:["Fluor, Chlor, Brom","Helium, Neon, Argon","Eisen, Kupfer, Gold","Natrium, Kalium, Lithium"],ans:0,fb:"Die 7. Hauptgruppe sind die Halogene: Fluor, Chlor, Brom, Iod usw."},
+
+    {type:"mc",q:"Was ist ein Elementsymbol?",opts:["Masse des Elements","Kurzschreibweise (1–2 Buchstaben)","Nummer im PSE","Farbe des Elements"],ans:1,fb:"z. B. Fe = Eisen, Au = Gold, O = Sauerstoff."},
+    
+    {type:"mc",q:"Wie heißen die waagerechten Zeilen im Periodensystem?",opts:["Gruppen","Perioden","Reihen","Blöcke"],ans:1,fb:"Die waagerechten Zeilen heißen Perioden. In jeder Periode wird eine neue Elektronenschale gefüllt."},
+    {type:"mc",q:"Wie heißen die senkrechten Spalten im Periodensystem?",opts:["Perioden","Reihen","Gruppen","Blöcke"],ans:2,fb:"Die senkrechten Spalten heißen Gruppen. Elemente einer Gruppe haben ähnliche chemische Eigenschaften."},
+    {type:"mc",q:"Was ist das Symbol 'Au'?",opts:["Aluminium","Silber","Gold","Argon"],ans:2,fb:"Au = Aurum (lat.) = Gold."}
+  ],
+  4:[
+
+    {type:"mc",q:"Welche Aussage gehört zum Teilchenmodell?",opts:["Teilchen bewegen sich ständig","Teilchen sind sichtbar","Teilchen gibt es nur in Gasen","Teilchen verschwinden"],ans:0,fb:"Im Teilchenmodell bewegen sich Teilchen ständig."},
+
+    {type:"mc",q:"Was besagt das Teilchenmodell?",opts:["Stoffe sind aus Wellen","Alle Stoffe bestehen aus Teilchen","Teilchen nur in Feststoffen","Alle Teilchen gleich groß"],ans:1,fb:"Alle Stoffe = kleinste unsichtbare Teilchen, ständig in Bewegung."},
+    {type:"mc",q:"Eisen und Gold – was gilt für ihre Teilchen?",opts:["Identische Teilchen","Verschiedene Teilchen","Keine Teilchen","Eckige Teilchen"],ans:1,fb:"Teilchen verschiedener Stoffe sind unterschiedlich."},
+    {type:"mc",q:"Warum verteilt sich Tinte in Wasser (Diffusion)?",opts:["Tinte ist magnetisch","Teilchen beider Stoffe bewegen sich","Wasser schwerer","Behälter rotiert"],ans:1,fb:"Ständige Teilchenbewegung → Durchmischung = Diffusion."},
+    {type:"mc",q:"Was passiert mit Wasserteilchen beim Erwärmen?",opts:["Verschwinden","Bewegen sich schneller, Abstand nimmt zu","Werden größer","Verbinden sich neu"],ans:1,fb:"Wärme = schnellere Bewegung, größerer Abstand → Ausdehnung."}
+  ],
+  5:[
+
+    {type:"mc",q:"Was ist allgemein eine Oxidation?",opts:["Eine Verbindung mit Sauerstoff","Eine Abkühlung","Eine Mischung","Eine Verdampfung"],ans:0,fb:"Bei einer Oxidation verbindet sich ein Stoff mit Sauerstoff."},
+    {type:"mc",q:"Welche Wortgleichung beschreibt die Oxidation von Kupfer richtig?",opts:["Kupfer + Sauerstoff → Kupferoxid","Kupferoxid → Kupfer + Sauerstoff","Kupfer + Wasser → Kupferoxid","Kupfer → Sauerstoff"],ans:0,fb:"Kupfer reagiert mit Sauerstoff zu Kupferoxid."},
+
+    {type:"mc",q:"Kupfer wird schwarz in der Flamme. Was ist passiert?",opts:["Aufgelöst","Mit Sauerstoff verbunden (Oxidation)","Wasser aufgenommen","Geschmolzen"],ans:1,fb:"Cu + O₂ → CuO (Kupferoxid, schwarz) = Oxidation."},
+    {type:"mc",q:"Warum wird beim Kupferbrief nur die Außenseite schwarz?",opts:["Kein Sauerstoff innen","Flamme zu schwach","Kein Kupfer innen","CuO ist weiß"],ans:0,fb:"Ohne Sauerstoff keine Oxidation – innen bleibt es blank."},
+    {type:"mc",q:"Eisenwolle erhitzen – warum nimmt die Masse ZU?",opts:["Wasser aufgenommen","Verbindet sich mit Sauerstoff","Eisen hat sich vermehrt","Waage kaputt"],ans:1,fb:"4 Fe + 3 O₂ → 2 Fe₂O₃. Sauerstoff wird Teil des Produkts."},
+    {type:"drag",q:"Was ist das Produkt der Kupfer-Oxidation?",items:["Kupferoxid (CuO)","Eisen","Kohlendioxid","Wasser"],cats:["Produkt","Kein Produkt"],correct:{"Kupferoxid (CuO)":"Produkt","Eisen":"Kein Produkt","Kohlendioxid":"Kein Produkt","Wasser":"Kein Produkt"},fb:"Cu + O₂ → CuO. Symbole: 2 Cu + O₂ → 2 CuO."},
+    {type:"mc",q:"Was sind Edukte und Produkte?",opts:["Edukte=Ergebnis, Produkte=Ausgangsstoffe","Edukte=Ausgangsstoffe, Produkte=neue Stoffe","Beides gleich","Produkte flüssig, Edukte fest"],ans:1,fb:"Edukte links vom Pfeil, Produkte rechts."},
+    {type:"mc",q:"Was bleibt laut Teilchenmodell bei einer Reaktion erhalten?",opts:["Teilchen verschwinden","Neue Atome entstehen","Anzahl der Atome bleibt erhalten","Produkte haben mehr Teilchen"],ans:2,fb:"Atome entstehen/verschwinden nicht – sie ordnen sich nur neu."},
+    {type:"mc",q:"Was gilt allgemein für eine Oxidation?",opts:["Ein Stoff verliert Sauerstoff","Ein Stoff verbindet sich mit Sauerstoff und es entsteht ein Oxid","Ein Stoff verbindet sich mit Wasserstoff","Ein Stoff wird abgekühlt"],ans:1,fb:"Bei einer Oxidation verbindet sich ein Stoff mit Sauerstoff → es entsteht ein Oxid. Die Masse des Produkts ist größer als die des Ausgangsstoffs, da Sauerstoff hinzukommt."}
+  ]
+};
+
+let mode="login",currentUser=null,isTeacher=false;
+let students={};
+let gs={topic:null,qIdx:0,answered:false,dragState:{}};
+let roleTeacher=false;
+
+function $(id){return document.getElementById(id)}
+function initials(n){return n.trim().split(" ").map(w=>w[0]?.toUpperCase()||"").slice(0,2).join("")}
+const AVG_COLS=["#dce8f8","#d4edd6","#e8daf8","#fde8c8","#fad8d2"];
+const AVG_TXT=["#0C447C","#085041","#3C3489","#633806","#712B13"];
+function avatarBg(n){const h=n.split("").reduce((a,c)=>a+c.charCodeAt(0),0);return AVG_COLS[h%AVG_COLS.length]}
+function avatarTx(n){const h=n.split("").reduce((a,c)=>a+c.charCodeAt(0),0);return AVG_TXT[h%AVG_TXT.length]}
+function pct(c,t){return t===0?0:Math.round((c/t)*100)}
+function allQ(){return Object.values(QUESTIONS).reduce((a,qs)=>a+qs.length,0)}
+
+function getStats(name){
+  const s=students[name];if(!s)return{total:0,correct:0,byTopic:{}};
+  let total=0,correct=0,byTopic={};
+  TOPICS.forEach(t=>{const td=s.topics[t.id]||{correct:0,total:0};byTopic[t.id]=td;total+=td.total;correct+=td.correct;});
+  return{total,correct,byTopic};
+}
+
+function render(){
+  const app=$('app');
+  if(mode==="login") app.innerHTML=renderLogin();
+  else if(mode==="student") app.innerHTML=renderStudent();
+  else if(mode==="teacher") app.innerHTML=renderTeacher();
+  attachEvents();
+}
+
+function renderLogin(){
+  return `<div class="card" style="max-width:380px;margin:2rem auto">
+    <div style="text-align:center;margin-bottom:1.25rem">
+      <div style="font-size:36px;margin-bottom:8px">⚗️</div>
+      <h2 style="margin-bottom:4px">Chemie-Quiz</h2>
+      <p>Klasse 8 · Metalle und Nichtmetalle</p>
+    </div>
+    <label>Dein Name</label>
+    <input type="text" id="login-name" placeholder="Vorname Nachname">
+    <label style="margin-top:4px">Ich bin:</label>
+    <div class="role-row">
+      <button class="role-btn sel" id="role-stu">Schüler/in</button>
+      <button class="role-btn" id="role-tea">Lehrkraft</button>
+    </div>
+    <div id="pin-area" style="display:none">
+      <label>Lehrer-PIN</label>
+      <input type="password" id="login-pin" placeholder="PIN eingeben">
+    </div>
+    <button class="btn primary" id="login-btn" style="width:100%;margin-top:4px">Anmelden →</button>
+    <div id="login-err" class="err"></div>
+  </div>`;
+}
+
+function renderStudent(){
+  if(gs.topic===null) return renderTopicSelect();
+  return renderQuestion();
+}
+
+function renderTopicSelect(){
+  const s=students[currentUser]||{topics:{}};
+  return `<div class="row-between" style="margin-bottom:1rem">
+    <div class="row">
+      <div class="avatar" style="background:${avatarBg(currentUser)};color:${avatarTx(currentUser)}">${initials(currentUser)}</div>
+      <span style="font-size:15px;font-weight:500">${currentUser}</span>
+    </div>
+    <button class="btn sm danger" id="logout-btn">Abmelden</button>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px" class="topic-grid">
+  ${TOPICS.map(t=>{
+    const td=s.topics?.[t.id]||{correct:0,total:0};
+    const done=td.total===QUESTIONS[t.id].length;
+    const pp=pct(td.total,QUESTIONS[t.id].length);
+    return `<div class="topic-card${done?' done':''}" onclick="startTopic(${t.id})">
+      <div style="font-size:22px;margin-bottom:6px">${t.icon}</div>
+      <div style="font-size:13px;font-weight:500;color:#1a1a1a">${t.title}</div>
+      <div class="prog-bar-bg"><div class="prog-bar" style="width:${pp}%"></div></div>
+      <div style="font-size:11px;color:#888;margin-top:4px">${td.total}/${QUESTIONS[t.id].length} Fragen${done?' · '+pct(td.correct,td.total)+'% richtig':''}</div>
+    </div>`;
+  }).join('')}
+  </div>`;
+}
+
+function renderQuestion(){
+  const qs=QUESTIONS[gs.topic];
+  if(gs.qIdx>=qs.length) return renderDone();
+  const q=qs[gs.qIdx];
+  let html=`<div class="row-between" style="margin-bottom:1rem">
+    <span style="font-size:13px;color:#888">${TOPICS[gs.topic].title} · Frage ${gs.qIdx+1}/${qs.length}</span>
+    <button class="btn sm" id="back-topics-btn">← Themen</button>
+  </div>
+  <div class="card">
+    <div style="font-size:15px;line-height:1.6;margin-bottom:1rem">${q.q.replace(/\n/g,'<br>')}</div>`;
+  if(q.type==='mc') html+=q.opts.map((o,i)=>`<button class="opt-btn" id="opt-${i}" onclick="checkMC(${i})">${o}</button>`).join('');
+  else if(q.type==='drag') html+=renderDragHTML(q);
+  else if(q.type==='calc') html+=`<div style="display:flex;align-items:center;gap:8px;margin:8px 0"><input type="number" id="calc-input" placeholder="Antwort" step="0.1"><span style="font-size:13px;color:#888">${q.unit}</span></div>`;
+  html+=`<div id="q-feedback"></div><div id="q-nav" style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">`;
+  if(q.type==='drag') html+=`<button class="btn primary" id="drag-check-btn" onclick="checkDrag()">Prüfen</button>`;
+  if(q.type==='calc') html+=`<button class="btn primary" onclick="checkCalc()">Prüfen</button>`;
+  if(q.type==='mc') html+=`<span style="font-size:13px;color:#aaa">Wähle eine Antwort</span>`;
+  html+=`</div></div>`;
+  return html;
+}
+
+function renderDragHTML(q){
+  let html=`<div class="drag-label">Ziehe die Begriffe in die richtige Kategorie:</div>
+  <div class="drag-zone" id="dz-pool">`;
+  q.items.forEach(item=>{html+=`<div class="chip" id="chip-${item.replace(/[^a-zA-Z0-9]/g,'_')}" draggable="true" data-item="${item}">${item}</div>`;});
+  html+='</div>';
+  q.cats.forEach(cat=>{html+=`<div class="drag-label">${cat}:</div><div class="drag-zone" id="dz-${cat.replace(/[\s\/]/g,'_')}" data-cat="${cat}"></div>`;});
+  return html;
+}
+
+function renderDone(){
+  const s=students[currentUser]||{topics:{}};
+  const td=s.topics?.[gs.topic]||{correct:0,total:0};
+  const p=pct(td.correct,td.total);
+  const stars=p>=80?'⭐⭐⭐':p>=50?'⭐⭐':'⭐';
+  return `<div class="card" style="text-align:center;padding:2rem 1rem">
+    <div style="font-size:36px;margin-bottom:12px">${stars}</div>
+    <h2>${TOPICS[gs.topic].title} – geschafft!</h2>
+    <p style="margin-bottom:4px">${td.correct} von ${td.total} Fragen richtig (${p}%)</p>
+    <div class="sep"></div>
+    <button class="btn primary" id="back-topics-btn" style="margin-top:8px">← Zurück zu den Themen</button>
+  </div>`;
+}
+
+function renderTeacher(){
+  const names=Object.keys(students);
+  const total=names.length;
+  const avg=total===0?0:Math.round(names.reduce((a,n)=>{const st=getStats(n);return a+(st.total===0?0:pct(st.correct,st.total));},0)/total);
+  let html=`<div class="row-between" style="margin-bottom:1rem">
+    <div style="font-size:16px;font-weight:500">🏫 Lehrermodus – Auswertung</div>
+    <button class="btn sm danger" id="logout-btn">Abmelden</button>
+  </div>
+  <div class="grid3">
+    <div class="metric"><div class="val">${total}</div><div class="lbl">Schüler/innen</div></div>
+    <div class="metric"><div class="val">${avg}%</div><div class="lbl">Ø Ergebnis</div></div>
+    <div class="metric"><div class="val">${allQ()}</div><div class="lbl">Fragen gesamt</div></div>
+  </div>`;
+
+  if(total===0){
+    html+=`<div class="card"><p style="text-align:center;padding:1rem">Noch keine Schüler/innen angemeldet.</p></div>`;
+    return html;
+  }
+
+  html+=`<div class="card" style="margin-bottom:1rem"><h3>👥 Schülerübersicht</h3>`;
+  names.forEach(name=>{
+    const st=getStats(name);const p=pct(st.correct,st.total);
+    const tc=st.total===0?'gray':p>=80?'ok':p>=50?'warn':'bad';
+    const tl=st.total===0?'Noch nicht gestartet':p+'% · '+(p>=80?'Gut':p>=50?'In Ordnung':'Schwierigkeiten');
+    html+=`<div class="stu-row">
+      <div class="avatar" style="background:${avatarBg(name)};color:${avatarTx(name)}">${initials(name)}</div>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:14px;font-weight:500">${name}</div>
+        <div style="font-size:12px;color:#888">${st.total}/${allQ()} Fragen</div>
+      </div>
+      <span class="tag ${tc}">${tl}</span>
+    </div>`;
+  });
+  html+=`</div>`;
+
+  html+=`<div class="card" style="margin-bottom:1rem"><h3>📊 Ergebnisse nach Thema</h3><p style="margin-bottom:12px;font-size:13px">Rot = häufige Fehler · Grün = gut verstanden</p>`;
+  TOPICS.forEach(t=>{
+    let c=0,tot=0;
+    names.forEach(n=>{const td=students[n]?.topics?.[t.id]||{correct:0,total:0};c+=td.correct;tot+=td.total;});
+    const p2=tot===0?null:pct(c,tot);
+    const bc=p2===null?'#ccc':p2>=80?'#1D9E75':p2>=50?'#EF9F27':'#E24B4A';
+    html+=`<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+      <span style="font-size:18px;width:24px">${t.icon}</span>
+      <div style="flex:1">
+        <div style="font-size:13px;color:#1a1a1a;margin-bottom:3px">${t.title}</div>
+        <div class="topic-bar-bg"><div class="topic-bar-fill" style="width:${p2||0}%;background:${bc}"></div></div>
+      </div>
+      <span style="font-size:13px;font-weight:500;color:#555;min-width:36px;text-align:right">${p2===null?'–':p2+'%'}</span>
+    </div>`;
+  });
+  html+=`</div>`;
+
+  html+=`<div class="card"><h3>🔍 Detailansicht pro Schüler/in</h3>`;
+  names.forEach(name=>{
+    html+=`<div style="margin-bottom:16px">
+      <div class="row" style="margin-bottom:8px">
+        <div class="avatar" style="width:28px;height:28px;font-size:11px;background:${avatarBg(name)};color:${avatarTx(name)}">${initials(name)}</div>
+        <span style="font-size:14px;font-weight:500">${name}</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:6px">`;
+    TOPICS.forEach(t=>{
+      const td=students[name]?.topics?.[t.id]||{correct:0,total:0};
+      const p3=td.total===0?null:pct(td.correct,td.total);
+      const bg2=p3===null?'#f0f0ec':p3>=80?'#E1F5EE':p3>=50?'#FAEEDA':'#FCEBEB';
+      const tx2=p3===null?'#888':p3>=80?'#085041':p3>=50?'#633806':'#501313';
+      html+=`<div class="heatcell" style="background:${bg2};color:${tx2}">
+        <div style="font-size:11px">${t.icon} ${t.title.split(' ')[0]}</div>
+        <div style="font-size:15px;margin-top:2px">${p3===null?'–':p3+'%'}</div>
+        <div style="font-size:11px;opacity:0.75">${td.correct}/${td.total}</div>
+      </div>`;
+    });
+    html+=`</div><div class="sep"></div></div>`;
+  });
+  html+=`</div>`;
+  return html;
+}
+
+function attachEvents(){
+  $('logout-btn')?.addEventListener('click',()=>{currentUser=null;isTeacher=false;mode="login";roleTeacher=false;render();});
+  $('back-topics-btn')?.addEventListener('click',()=>{gs.topic=null;gs.qIdx=0;gs.answered=false;render();});
+
+  if(mode==="login"){
+    const rStu=$('role-stu'),rTea=$('role-tea'),pinArea=$('pin-area');
+    rStu?.addEventListener('click',()=>{roleTeacher=false;rStu.classList.add('sel');rTea.classList.remove('sel');pinArea.style.display='none';});
+    rTea?.addEventListener('click',()=>{roleTeacher=true;rTea.classList.add('sel');rStu.classList.remove('sel');pinArea.style.display='block';});
+    $('login-btn')?.addEventListener('click',()=>{
+      const name=($('login-name').value||"").trim();
+      if(!name){$('login-err').textContent='Bitte Namen eingeben.';return;}
+      if(roleTeacher){
+        if(($('login-pin').value||"").trim()!==TEACHER_PIN){$('login-err').textContent='Falscher PIN.';return;}
+        isTeacher=true;currentUser=name;mode="teacher";render();
+      } else {
+        if(!students[name]) students[name]={topics:{}};
+        currentUser=name;mode="student";gs={topic:null,qIdx:0,answered:false,dragState:{}};render();
+      }
+    });
+    $('login-name')?.addEventListener('keydown',e=>{if(e.key==='Enter')$('login-btn').click();});
+    $('login-pin')?.addEventListener('keydown',e=>{if(e.key==='Enter')$('login-btn').click();});
+  }
+
+  if(mode==="student"&&gs.topic!==null){
+    const qs=QUESTIONS[gs.topic];
+    if(gs.qIdx<qs.length&&qs[gs.qIdx].type==='drag') initDrag(qs[gs.qIdx]);
+  }
+}
+
+function startTopic(id){
+  if(!students[currentUser].topics) students[currentUser].topics={};
+  if(!students[currentUser].topics[id]) students[currentUser].topics[id]={correct:0,total:0};
+  gs={topic:id,qIdx:0,answered:false,dragState:{}};render();
+}
+
+function recordAnswer(tid,ok){
+  if(!students[currentUser]?.topics?.[tid]) return;
+  students[currentUser].topics[tid].total++;
+  if(ok) students[currentUser].topics[tid].correct++;
+}
+
+function showFeedback(ok,text){
+  const fb=$('q-feedback');
+  if(fb) fb.innerHTML=`<div class="feedback ${ok?'ok':'nok'}">${ok?'✓ Richtig! ':'✗ Nicht ganz. '}${text}</div>`;
+}
+
+function addNext(){
+  const nav=$('q-nav');if(!nav)return;
+  const qs=QUESTIONS[gs.topic];
+  const btn=document.createElement('button');
+  btn.className='btn primary';
+  btn.textContent=gs.qIdx+1<qs.length?'Nächste Frage →':'Thema abschließen ✓';
+  btn.onclick=()=>{gs.qIdx++;gs.answered=false;gs.dragState={};render();};
+  nav.appendChild(btn);
+}
+
+function checkMC(i){
+  if(gs.answered)return;gs.answered=true;
+  const q=QUESTIONS[gs.topic][gs.qIdx];
+  document.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
+  const ok=(i===q.ans);
+  $('opt-'+i)?.classList.add(ok?'correct':'wrong');
+  if(!ok) $('opt-'+q.ans)?.classList.add('correct');
+  recordAnswer(gs.topic,ok);showFeedback(ok,q.fb);addNext();
+}
+
+function initDrag(q){
+  gs.dragState={};
+  document.querySelectorAll('.chip').forEach(chip=>{
+    chip.addEventListener('dragstart',e=>e.dataTransfer.setData('text',chip.dataset.item));
+  });
+  document.querySelectorAll('.drag-zone').forEach(zone=>{
+    zone.addEventListener('dragover',e=>{e.preventDefault();zone.classList.add('over');});
+    zone.addEventListener('dragleave',()=>zone.classList.remove('over'));
+    zone.addEventListener('drop',e=>{
+      e.preventDefault();zone.classList.remove('over');
+      const item=e.dataTransfer.getData('text');
+      const chip=document.getElementById('chip-'+item.replace(/[^a-zA-Z0-9]/g,'_'));
+      if(chip) zone.appendChild(chip);
+      if(zone.dataset.cat) gs.dragState[item]=zone.dataset.cat;
+      else delete gs.dragState[item];
+    });
+  });
+}
+
+function checkDrag(){
+  if(gs.answered)return;gs.answered=true;
+  const q=QUESTIONS[gs.topic][gs.qIdx];
+  let correct=0;
+  q.items.forEach(item=>{
+    const chip=document.getElementById('chip-'+item.replace(/[^a-zA-Z0-9]/g,'_'));
+    if(!chip)return;
+    const ok=(gs.dragState[item]===q.correct[item]);
+    chip.classList.add(ok?'correct-chip':'wrong-chip');
+    if(ok)correct++;
+  });
+  const allOk=(correct===q.items.length);
+  recordAnswer(gs.topic,allOk);
+  showFeedback(allOk,`${correct}/${q.items.length} richtig. ${q.fb}`);
+  $('drag-check-btn')?.setAttribute('disabled','true');addNext();
+}
+
+function checkCalc(){
+  if(gs.answered)return;
+  const q=QUESTIONS[gs.topic][gs.qIdx];
+  const val=parseFloat($('calc-input')?.value);
+  if(isNaN(val)){showFeedback(false,'Bitte eine Zahl eingeben!');return;}
+  gs.answered=true;
+  const ok=Math.abs(val-q.ans)<0.05;
+  recordAnswer(gs.topic,ok);showFeedback(ok,q.fb);
+  if($('calc-input'))$('calc-input').disabled=true;addNext();
+}
+
+render();
+</script>
+</body>
+</html>
